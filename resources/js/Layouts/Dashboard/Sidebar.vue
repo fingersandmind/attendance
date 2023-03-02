@@ -26,10 +26,10 @@ const menuItems = [
         to: ""
     },
     {
-        name: 'Admin',
+        name: 'Faculty',
         icon: UserIcon,
-        active: false,
-        to: ""
+        active: route().current('admin.team.index'),
+        to: { name: 'admin.team.index' }
     },
     {
         name: 'Users',

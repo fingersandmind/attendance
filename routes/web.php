@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\FacultyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,5 +24,7 @@ Route::get('/home', function(){
 });
 
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.'], function(){
-   Route::get('team', [TeamController::class, 'index'])->name('team.index');
+    Route::get('team', [FacultyController::class, 'index'])->name('team.index');
+    Route::get('team/create', [FacultyController::class, 'create'])->name('team.create');
+    Route::get('team/{user}/create', [FacultyController::class, 'edit'])->name('team.edit');
 });
