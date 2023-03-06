@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\FacultyController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,7 +26,13 @@ Route::get('/home', function(){
 });
 
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.'], function(){
-    Route::get('team', [FacultyController::class, 'index'])->name('team.index');
-    Route::get('team/create', [FacultyController::class, 'create'])->name('team.create');
-    Route::get('team/{user}/create', [FacultyController::class, 'edit'])->name('team.edit');
+    // Faculty
+    Route::resource('faculties', FacultyController::class);
+    Route::get('logs/{faculty}', [FacultyController::class, 'logShow'])->name('logs.show');
+
+    // Users
+    Route::resource('users', UserController::class);
+
+    //Calendars
+    Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
 });

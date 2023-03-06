@@ -2,7 +2,6 @@
 import Sidebar from "@/Layouts/Dashboard/Sidebar.vue";
 import { ref } from "vue";
 import HamburgerIcon from "@/Components/Icons/HamburgerIcon.vue";
-import Breadcrumbs from "@/Layouts/Breadcrumbs.vue";
 
 const isSideMenueOpen = ref(false);
 const toggleSideMenu = () => {

@@ -1,16 +1,18 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Breadcrumbs from "@/Layouts/Breadcrumbs.vue";
-import { Link, router } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 import Pagination from "@/Components/Pagination/Pagination.vue";
 import Dropdown from "@/Components/Dropdown/Dropdown.vue";
 import DropdownLink from "@/Components/Dropdown/DropdownLink.vue";
 import BaseButton from "@/Components/Buttons/BaseButton.vue";
 import EllipsisVertical from "@/Components/Icons/EllipsisVertical.vue";
-import { ref } from "vue";
+import {ref} from "vue";
+import { router } from "@inertiajs/vue3";
+import InputLabel from "@/Components/Inputs/InputLabel.vue";
 
 let props = defineProps({
-    faculties: {
+    users: {
         type: Object,
         required: false
     }
@@ -19,7 +21,7 @@ const searchTerm = ref('');
 
 let search = async (page = 1) => {
     await router.visit(
-        route('admin.faculties.index'),
+        route('admin.users.index'),
         {
             data: {
                 searchTerm: searchTerm.value,
@@ -38,8 +40,8 @@ let search = async (page = 1) => {
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Faculties</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of all the faculties including their name, title, email and phone.</p>
+                    <h1 class="text-base font-semibold leading-6 text-gray-900">Admins</h1>
+                    <p class="mt-2 text-sm text-gray-700">A list of all the Users who can access the page</p>
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                     <Link
@@ -48,15 +50,18 @@ let search = async (page = 1) => {
                             leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline
                             focus-visible:outline-2 focus-visible:outline-offset-2
                             focus-visible:outline-indigo-600"
-                        :href="route('admin.faculties.create')"
+                        :href="route('admin.users.create')"
                     >
-                        Add Faculty
+                        Add
                     </Link>
                 </div>
             </div>
             <div class="flex justify-start mt-4">
                 <div>
-                    <label for="search" class="block text-sm font-medium leading-6 text-gray-900">Search</label>
+                    <InputLabel
+                        for="search"
+                        value="Search"
+                    />
                     <div class="relative mt-2 flex items-center">
                         <input
                             type="text"
@@ -83,7 +88,7 @@ let search = async (page = 1) => {
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
                             <table
-                                v-if="props.faculties.data.length > 0"
+                                v-if="props.users.data.length > 0"
                                 class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50">
                                 <tr>
@@ -99,16 +104,6 @@ let search = async (page = 1) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell">
-                                        Phone
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter">
-                                        Address
-                                    </th>
-                                    <th
-                                        scope="col"
                                         class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pr-4 pl-3 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8">
                                         <span class="sr-only">Edit</span>
                                     </th>
@@ -117,20 +112,14 @@ let search = async (page = 1) => {
                                 <tbody
                                     class="divide-y divide-gray-200 bg-white">
                                 <tr
-                                    v-for="faculty in props.faculties.data"
-                                    :key="faculty.id"
+                                    v-for="user in props.users.data"
+                                    :key="user.id"
                                 >
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                        {{ faculty.fullname }}
+                                        {{ user.name }}
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ faculty.email }}
-                                    </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ faculty.phone }}
-                                    </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ faculty.address }}
+                                        {{ user.email }}
                                     </td>
                                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                         <Dropdown>
@@ -145,20 +134,12 @@ let search = async (page = 1) => {
 
                                             <template #content>
                                                 <DropdownLink
-                                                    :href="route('admin.faculties.show', { faculty: faculty.id })"
+                                                    :href="route('admin.users.show', { user: user.id })"
                                                 >
-                                                    <span
-                                                        class="text-dark-gray-500 text-md font-normal">
-                                                        Details
-                                                    </span>
-                                                </DropdownLink>
-                                                <DropdownLink
-                                                    :href="route('admin.faculties.edit', { faculty: faculty.id })"
-                                                >
-                                                    <span
-                                                        class="text-dark-gray-500 text-md font-normal">
-                                                        Edit
-                                                    </span>
+                                            <span
+                                                class="text-dark-gray-500 text-md font-normal">
+                                                Details
+                                            </span>
                                                 </DropdownLink>
                                             </template>
                                         </Dropdown>
@@ -173,7 +154,7 @@ let search = async (page = 1) => {
                                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
                                 </svg>
-                                <h3 class="mt-2 text-sm font-semibold text-gray-900">No faculty found</h3>
+                                <h3 class="mt-2 text-sm font-semibold text-gray-900">No users found</h3>
                                 <p class="mt-1 text-sm text-gray-500">Click "back" to revert actions</p>
                                 <div class="mt-6">
                                     <button
@@ -187,15 +168,14 @@ let search = async (page = 1) => {
 
                         </div>
                         <Pagination
-                            v-if="props.faculties.last_page > 1"
-                            :links="props.faculties"
+                            v-if="props.users.last_page > 1"
+                            :links="props.users"
                             @page-changed="search"
                         />
                     </div>
                 </div>
             </div>
         </div>
-
 
     </AuthenticatedLayout>
 </template>

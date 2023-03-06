@@ -18,12 +18,17 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "@headlessui/vue": "^1.7.12",
+        "@heroicons/vue": "^2.0.16",
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/vue3": "^1.0.2",
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^4.0.0",
+        "@vuepic/vue-datepicker": "^4.2.0",
+        "html2pdf.js": "^0.10.1",
         "vue": "^3.2.47",
+        "vue-router": "^4.1.6",
         "ziggy": "^2.4.0"
     }
 }

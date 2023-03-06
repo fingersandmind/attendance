@@ -14,7 +14,7 @@
         <nav
             class="inline-flex items-center justify-center gap-4"
             aria-label="Pagination">
-            <div v-for="(link, index) in pages" :key="index">
+            <div v-for="(link, index) in pages" :key="index" class="flex items-center">
                 <button
                     v-if="index === 0"
                     class="relative pagination-link mr-2 items-center"

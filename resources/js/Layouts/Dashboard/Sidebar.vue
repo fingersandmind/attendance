@@ -4,9 +4,7 @@ import SidebarItem from "@/Layouts/Dashboard/SidebarItem.vue";
 import HomeIcon from "@/Components/Icons/HomeIcon.vue"
 import UsersIcon from "@/Components/Icons/UsersIcon.vue"
 import UserIcon from "@/Components/Icons/UserIcon.vue"
-import FolderIcon from "@/Components/Icons/FolderIcon.vue"
 import CalendarIcon from "@/Components/Icons/CalendarIcon.vue"
-import DocumentIcon from "@/Components/Icons/DocumentIcon.vue"
 import StatisticIcon from "@/Components/Icons/StatisticIcon.vue"
 
 defineProps({
@@ -26,34 +24,22 @@ const menuItems = [
         to: ""
     },
     {
+        name: 'Manage Admin',
+        icon: UsersIcon,
+        active: route().current('admin.users.*'),
+        to: { name: 'admin.users.index' }
+    },
+    {
         name: 'Faculty',
         icon: UserIcon,
-        active: route().current('admin.team.index'),
-        to: { name: 'admin.team.index' }
+        active: route().current('admin.faculties.*') || route().current('admin.logs.*'),
+        to: { name: 'admin.faculties.index' }
     },
     {
-        name: 'Users',
-        icon: UsersIcon,
-        active: false,
-        to: ""
-    },
-    {
-        name: 'Projects',
-        icon: FolderIcon,
-        active: false,
-        to: ""
-    },
-    {
-        name: 'Calendar',
+        name: 'Manage Calendar',
         icon: CalendarIcon,
-        active: false,
-        to: ""
-    },
-    {
-        name: 'Documents',
-        icon: DocumentIcon,
-        active: false,
-        to: ""
+        active: route().current('admin.calendar.*'),
+        to: { name: 'admin.calendar.index' }
     },
     {
         name: 'Reports',
