@@ -100,7 +100,12 @@ let search = async (page = 1) => {
                                     <th
                                         scope="col"
                                         class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell">
-                                        Phone
+                                        Speciality
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell">
+                                        Division
                                     </th>
                                     <th
                                         scope="col"
@@ -127,7 +132,10 @@ let search = async (page = 1) => {
                                         {{ faculty.email }}
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ faculty.phone }}
+                                        {{ faculty.detail.speciality }}
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        {{ faculty.detail.division }}
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         {{ faculty.address }}

@@ -6,6 +6,7 @@ import UsersIcon from "@/Components/Icons/UsersIcon.vue"
 import UserIcon from "@/Components/Icons/UserIcon.vue"
 import CalendarIcon from "@/Components/Icons/CalendarIcon.vue"
 import StatisticIcon from "@/Components/Icons/StatisticIcon.vue"
+import CogIcon from "@/Components/Icons/CogIcon.vue";
 
 defineProps({
     isSideMenuOpen: {
@@ -40,6 +41,12 @@ const menuItems = [
         icon: CalendarIcon,
         active: route().current('admin.calendar.*'),
         to: { name: 'admin.calendar.index' }
+    },
+    {
+        name: 'Settings',
+        icon: CogIcon,
+        active: route().current('admin.settings.*'),
+        to: { name: 'admin.settings.index' }
     },
     {
         name: 'Reports',

@@ -35,7 +35,7 @@ const open = ref(false);
 </script>
 
 <template>
-    <div class="relative">
+    <div class="relative z-10">
         <div @click="open = !open">
             <slot name="trigger" />
         </div>

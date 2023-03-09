@@ -22,7 +22,10 @@ let form = useForm({
     'email': props.faculty.email,
     'phone': props.faculty.phone,
     'country': 'Philippines',
-    'address': props.faculty.address
+    'address': props.faculty.address,
+    'position': props.faculty.detail?.position,
+    'division': props.faculty.detail?.division,
+    'speciality': props.faculty.detail?.speciality,
 });
 const title = ['Mr.', 'Mrs.', 'Ms.'];
 
@@ -37,14 +40,7 @@ const title = ['Mr.', 'Mrs.', 'Ms.'];
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <form class="space-y-8 divide-y divide-gray-200" @submit.prevent="form.put(route('admin.faculties.update', { faculty: faculty.id }))">
                             <div class="space-y-8 divide-y divide-gray-200">
-                                <div>
-                                    <div>
-                                        <h3 class="text-base font-semibold leading-6 text-gray-900">Profile</h3>
-                                        <p class="mt-1 text-sm text-gray-500">This information will note be displayed publicly</p>
-                                    </div>
-                                </div>
-
-                                <div class="pt-8">
+                                <div class="">
                                     <div>
                                         <h3 class="text-base font-semibold leading-6 text-gray-900">Personal Information</h3>
                                         <p class="mt-1 text-sm text-gray-500">Fill in information below</p>
@@ -161,6 +157,66 @@ const title = ['Mr.', 'Mrs.', 'Ms.'];
 
                                         <div class="sm:col-span-3">
                                             <InputLabel
+                                                value="Position"
+                                                for="position"
+                                            />
+                                            <div class="mt-1">
+                                                <TextInput
+                                                    v-model="form.position"
+                                                    type="text"
+                                                    name="position"
+                                                    id="position"
+                                                />
+                                                <InputError
+                                                    v-if="form.errors.position"
+                                                >
+                                                    {{ form.errors.position }}
+                                                </InputError>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:col-span-3">
+                                            <InputLabel
+                                                value="Division"
+                                                for="division"
+                                            />
+                                            <div class="mt-1">
+                                                <TextInput
+                                                    v-model="form.division"
+                                                    type="text"
+                                                    name="division"
+                                                    id="division"
+                                                />
+                                                <InputError
+                                                    v-if="form.errors.division"
+                                                >
+                                                    {{ form.errors.division }}
+                                                </InputError>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:col-span-3">
+                                            <InputLabel
+                                                value="Speciality"
+                                                for="speciality"
+                                            />
+                                            <div class="mt-1">
+                                                <TextInput
+                                                    v-model="form.speciality"
+                                                    type="text"
+                                                    name="speciality"
+                                                    id="speciality"
+                                                />
+                                                <InputError
+                                                    v-if="form.errors.speciality"
+                                                >
+                                                    {{ form.errors.speciality }}
+                                                </InputError>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:col-span-3">
+                                            <InputLabel
                                                 value="Phone"
                                                 for="phone"
                                             />
@@ -237,7 +293,7 @@ const title = ['Mr.', 'Mrs.', 'Ms.'];
                                     <button
                                         type="submit"
                                         class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                        Save
+                                        Update
                                     </button>
                                 </div>
                             </div>

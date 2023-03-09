@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Faculty extends Model
 {
@@ -35,5 +36,10 @@ class Faculty extends Model
                 ->orWhere('email', 'like', $term);
            });
         });
+    }
+
+    public function detail(): HasOne
+    {
+        return $this->hasOne(Detail::class);
     }
 }

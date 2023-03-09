@@ -13,7 +13,10 @@ const date = ref([]);
 let props = defineProps({
     attendances: Object,
     faculty: Object,
-    dates: Array
+    dates: Array,
+    totalLoggedHours: String,
+    totalLateHours: String,
+    setting: Object
 })
 
 onMounted(() => {
@@ -28,7 +31,7 @@ const handleDate = (modelData) => {
             data: {
                 dates: date.value
             },
-            only: ['attendances','dates'],
+            only: ['attendances','dates', 'totalLateHours', 'totalLoggedHours'],
             preserScroll: true
         });
 }
@@ -70,8 +73,12 @@ let exportToPdf = () => {
                 </div>
             </div>
             <AttendanceTable
+                v-if="attendances.data.length > 0"
                 :table-id="'attendance-table'"
                 :attendances="attendances"
+                :total-logged-hours="totalLoggedHours"
+                :total-late-hours="totalLateHours"
+                :setting="setting"
                 :editable="false"
                 :has-pagination="false"
                 :user="faculty.fullname"

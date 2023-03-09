@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\FacultyController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,4 +36,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.']
 
     //Calendars
     Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
+
+    //Settings
+    Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 });

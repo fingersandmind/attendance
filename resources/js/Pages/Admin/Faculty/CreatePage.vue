@@ -14,7 +14,10 @@ let form = useForm({
    'email': null,
    'phone': null,
    'country': 'Philippines',
-   'address': null
+   'address': null,
+   'position': null,
+   'division': null,
+   'speciality': null,
 });
 const title = ['Mr.', 'Mrs.', 'Ms.'];
 </script>
@@ -152,6 +155,66 @@ const title = ['Mr.', 'Mrs.', 'Ms.'];
 
                                         <div class="sm:col-span-3">
                                             <InputLabel
+                                                value="Position"
+                                                for="position"
+                                            />
+                                            <div class="mt-1">
+                                                <TextInput
+                                                    v-model="form.position"
+                                                    type="text"
+                                                    name="position"
+                                                    id="position"
+                                                />
+                                                <InputError
+                                                    v-if="form.errors.position"
+                                                >
+                                                    {{ form.errors.position }}
+                                                </InputError>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:col-span-3">
+                                            <InputLabel
+                                                value="Division"
+                                                for="division"
+                                            />
+                                            <div class="mt-1">
+                                                <TextInput
+                                                    v-model="form.division"
+                                                    type="text"
+                                                    name="division"
+                                                    id="division"
+                                                />
+                                                <InputError
+                                                    v-if="form.errors.division"
+                                                >
+                                                    {{ form.errors.division }}
+                                                </InputError>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:col-span-3">
+                                            <InputLabel
+                                                value="Speciality"
+                                                for="speciality"
+                                            />
+                                            <div class="mt-1">
+                                                <TextInput
+                                                    v-model="form.speciality"
+                                                    type="text"
+                                                    name="speciality"
+                                                    id="speciality"
+                                                />
+                                                <InputError
+                                                    v-if="form.errors.speciality"
+                                                >
+                                                    {{ form.errors.speciality }}
+                                                </InputError>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:col-span-3">
+                                            <InputLabel
                                                 value="Phone"
                                                 for="phone"
                                             />
@@ -180,7 +243,8 @@ const title = ['Mr.', 'Mrs.', 'Ms.'];
                                                     v-model="form.country"
                                                     id="country"
                                                     name="country"
-                                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                    disabled
+                                                    class="bg-gray-200 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                 >
                                                     <option selected>Philippines</option>
                                                 </select>

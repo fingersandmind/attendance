@@ -1,15 +1,36 @@
 <script setup>
 import Pagination from "@/Components/Pagination/Pagination.vue";
-import {router} from "@inertiajs/vue3";
-import {onMounted} from "vue";
+import {router } from "@inertiajs/vue3";
 
 let props = defineProps({
     user: String,
     attendances: Object,
+    setting: {
+      type: Object,
+      required: true
+    },
+    totalLoggedHours: String,
+    totalLateHours: String,
     tableId: String,
     editable: true,
     hasPagination: true
 });
+
+let status = (time) => {
+    time = simplifyTime(time);
+    let fIn = simplifyTime(props.setting.first_in);
+    let fOut = simplifyTime(props.setting.first_out);
+    let sIn = simplifyTime(props.setting.second_in);
+    let sOut = simplifyTime(props.setting.second_out);
+    let isLate = (time > fIn && time < fOut) || (time > sIn && time < sOut);
+    return isLate ? 'text-red-500' : 'text-green-500'
+}
+
+function simplifyTime(time)
+{
+    time = time.substring(0,5);
+    return parseInt(time.replace(':',''));
+}
 
 let search = (page = 1) => {
     let url = props.attendances.next_page_url;
@@ -20,10 +41,9 @@ let search = (page = 1) => {
                 page: page
             },
             preserveScroll: true,
-            only: ['attendances']
+            only: ['attendances', 'totalLoggedHours']
         })
     }
-    // router.
 }
 </script>
 
@@ -47,8 +67,9 @@ let search = (page = 1) => {
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">In</th>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Out</th>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">In</th>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Out</th>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Date</th>
-                    <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Status</th>
                     <th v-if="editable" scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                         <span class="sr-only">Edit</span>
                     </th>
@@ -62,10 +83,11 @@ let search = (page = 1) => {
                     <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
                         {{ user }}
                     </td>
-                    <td class="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{{ attendance.in }}</td>
-                    <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ attendance.out }}</td>
-                    <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ new Date(attendance.created_at).toDateString() }}</td>
-                    <td class="px-3 py-4 text-sm text-gray-500">late</td>
+                    <td class="hidden px-3 py-4 text-sm lg:table-cell" :class="status(attendance.first_in)">{{ attendance.first_in }}</td>
+                    <td class="hidden px-3 py-4 text-sm sm:table-cell">{{ attendance.first_out }}</td>
+                    <td class="hidden px-3 py-4 text-sm lg:table-cell" :class="status(attendance.second_in)">{{ attendance.second_in }}</td>
+                    <td class="hidden px-3 py-4 text-sm sm:table-cell">{{ attendance.second_out }}</td>
+                    <td class="hidden px-3 py-4 text-sm sm:table-cell">{{ new Date(attendance.created_at).toDateString() }}</td>
                     <td v-if="editable" class="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                         <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, Lindsay Walton</span></a>
                     </td>
@@ -74,6 +96,10 @@ let search = (page = 1) => {
                 <!-- More people... -->
                 </tbody>
             </table>
+            <div v-show="totalLoggedHours" class="flex my-8 justify-start gap-4">
+                <span class="block text-gray-500 text-md">Total Logged Hours: {{ totalLoggedHours }}</span>
+                <span class="block text-red-500 text-md">Total Late Hours: {{ totalLateHours }}</span>
+            </div>
         </div>
         <Pagination
             v-if="hasPagination"
