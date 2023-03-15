@@ -17,6 +17,16 @@ class UserController extends Controller
      */
     public function index(Request $request): \Inertia\Response
     {
+        $breadcrumbs = [
+            [
+                'name' => 'Home',
+                'link' => route('home'),
+            ],
+            [
+                'name' => 'Users',
+                'link' => '#',
+            ],
+        ];
         $searchTerm = $request->get('searchTerm') ?? '';
         $users = User::query()
             ->search($searchTerm)
@@ -24,7 +34,7 @@ class UserController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('Admin/Users/IndexPage', compact('users'));
+        return Inertia::render('Admin/Users/IndexPage', compact('users', 'breadcrumbs'));
     }
 
     /**
@@ -32,7 +42,21 @@ class UserController extends Controller
      */
     public function create(): \Inertia\Response
     {
-        return Inertia::render('Admin/Users/CreatePage');
+        $breadcrumbs = [
+            [
+                'name' => 'Home',
+                'link' => route('home'),
+            ],
+            [
+                'name' => 'Users',
+                'link' => route('admin.users.index'),
+            ],
+            [
+                'name' => 'Create',
+                'link' => '#',
+            ],
+        ];
+        return Inertia::render('Admin/Users/CreatePage', compact('breadcrumbs'));
     }
 
     /**

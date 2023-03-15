@@ -1,4 +1,7 @@
 <script setup>
+import RightIcon from "@/Components/Icons/RightIcon.vue";
+import HomeDarkIcon from "@/Components/Icons/HomeDarkIcon.vue";
+import { Link } from "@inertiajs/vue3";
 
 defineProps({
    breadcrumb: {
@@ -6,22 +9,34 @@ defineProps({
        required: true
    }
 });
+
 </script>
 <template>
     <li class="flex" v-if="breadcrumb.name === 'Home'">
         <div class="flex items-center">
-            <a href="{{ breadcrumb.link }}" class="text-gray-400 hover:text-gray-500">
-                <component :is="breadcrumb.icon" />
+            <Link
+                :href="breadcrumb.link"
+                class="text-gray-400 hover:text-gray-500"
+            >
+                <HomeDarkIcon class="my-2"/>
                 <span class="sr-only">{{ breadcrumb.name }}</span>
-            </a>
+            </Link>
         </div>
     </li>
     <li v-else class="flex">
-        <div class="flex items-center">
-            <component :is="breadcrumb.icon" />
-            <a href="{{ breadcrumb.link }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">
+        <div
+            class="flex items-center"
+            :class="{ 'pointer-events-none' : breadcrumb.link === '#' }"
+        >
+            <RightIcon />
+            <Link
+                :disabled="breadcrumb.link === '#'"
+                :href="breadcrumb.link"
+                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                aria-current="page"
+            >
                 {{ breadcrumb.name }}
-            </a>
+            </Link>
         </div>
     </li>
 </template>

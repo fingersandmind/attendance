@@ -11,7 +11,8 @@ let props = defineProps({
    faculty: {
        type: Object,
        required: true
-   }
+   },
+   breadcrumbs: Object
 });
 
 let form = useForm({
@@ -33,7 +34,7 @@ const title = ['Mr.', 'Mrs.', 'Ms.'];
 
 <template>
     <AuthenticatedLayout>
-        <Breadcrumbs />
+        <Breadcrumbs :breadcrumbs="breadcrumbs"/>
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">

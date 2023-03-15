@@ -1,25 +1,9 @@
 <script setup>
-import RightIcon from "@/Components/Icons/RightIcon.vue";
-import HomeDarkIcon from "@/Components/Icons/HomeDarkIcon.vue";
 import BreadcrumbItem from "@/Layouts/BreadcrumbItem.vue";
 
-const breadcrumbs = [
-    {
-        link: "#",
-        icon: HomeDarkIcon,
-        name: "Home"
-    },
-    {
-        link: "#",
-        icon: RightIcon,
-        name: "Projects"
-    },
-    {
-        link: "#",
-        icon: RightIcon,
-        name: "Some Item"
-    },
-];
+defineProps({
+   breadcrumbs: Object
+});
 
 </script>
 <template>

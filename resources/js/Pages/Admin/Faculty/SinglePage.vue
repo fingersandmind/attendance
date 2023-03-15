@@ -2,7 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Breadcrumbs from "@/Layouts/Breadcrumbs.vue";
 import PaperClipIcon from "@/Components/Icons/PaperClipIcon.vue";
-import AttendanceTable from "@/Pages/Admin/Faculty/Components/AttendanceTable.vue";
+import AttendanceTable from "@/Components/Tables/AttendanceTable.vue";
 import { Link } from "@inertiajs/vue3";
 import html2pdf from "html2pdf.js";
 import AvatarIcon from "@/Components/Icons/AvatarIcon.vue";
@@ -13,7 +13,8 @@ let props = defineProps({
        required: true
    },
    attendances: Object,
-   setting: Object
+   setting: Object,
+   breadcrumbs: Object
 });
 const filename = `${props.faculty.firstname}_attendance_log.pdf`;
 let exportToPdf = () => {
@@ -27,7 +28,7 @@ let exportToPdf = () => {
 
 <template>
     <AuthenticatedLayout>
-        <Breadcrumbs />
+        <Breadcrumbs :breadcrumbs="breadcrumbs"/>
         <div class="overflow-hidden bg-white shadow sm:rounded-lg mx-8 border mb-4">
             <div class="flex justify-between items-start">
                 <div class="px-4 py-5 sm:px-6">

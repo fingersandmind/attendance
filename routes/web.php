@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\FacultyController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ReportsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -40,4 +41,6 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.']
     //Settings
     Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+
+    Route::get('reports', [ReportsController::class, 'index'])->name('reports');
 });

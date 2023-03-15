@@ -4,9 +4,11 @@ import SidebarItem from "@/Layouts/Dashboard/SidebarItem.vue";
 import HomeIcon from "@/Components/Icons/HomeIcon.vue"
 import UsersIcon from "@/Components/Icons/UsersIcon.vue"
 import UserIcon from "@/Components/Icons/UserIcon.vue"
-import CalendarIcon from "@/Components/Icons/CalendarIcon.vue"
 import StatisticIcon from "@/Components/Icons/StatisticIcon.vue"
 import CogIcon from "@/Components/Icons/CogIcon.vue";
+import {usePage} from "@inertiajs/vue3";
+import { computed } from "vue";
+import { Link } from "@inertiajs/vue3";
 
 defineProps({
     isSideMenuOpen: {
@@ -37,12 +39,6 @@ const menuItems = [
         to: { name: 'admin.faculties.index' }
     },
     {
-        name: 'Manage Calendar',
-        icon: CalendarIcon,
-        active: route().current('admin.calendar.*'),
-        to: { name: 'admin.calendar.index' }
-    },
-    {
         name: 'Settings',
         icon: CogIcon,
         active: route().current('admin.settings.*'),
@@ -51,10 +47,12 @@ const menuItems = [
     {
         name: 'Reports',
         icon: StatisticIcon,
-        active: false,
-        to: ""
+        active: route().current('admin.reports'),
+        to: { name: 'admin.reports' }
     },
 ]
+
+const user = computed(() => usePage().props.auth.user)
 </script>
 
 <template>
@@ -105,8 +103,8 @@ const menuItems = [
                                     <img class="inline-block h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                                 </div>
                                 <div class="ml-3">
-                                    <p class="text-base font-medium text-white">Tom Cook</p>
-                                    <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
+                                    <p class="text-base font-medium text-white">{{ user.name }}</p>
+                                    <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300 sr-only">View profile</p>
                                 </div>
                             </div>
                         </a>
@@ -140,14 +138,23 @@ const menuItems = [
                 </div>
                 <div class="flex flex-shrink-0 bg-gray-700 p-4">
                     <a href="#" class="group block w-full flex-shrink-0">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div>
+                                    <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-white">{{ user.name }}</p>
+                                    <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200 sr-only">View profile</p>
+                                </div>
                             </div>
-                            <div class="ml-3">
-                                <p class="text-sm font-medium text-white">Tom Cook</p>
-                                <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
-                            </div>
+                            <Link
+                                :href="route('logout')"
+                                method="POST"
+                                class="text-gray-200 text-sm right-0 hover:text-gray-300"
+                            >
+                                Logout
+                            </Link>
                         </div>
                     </a>
                 </div>

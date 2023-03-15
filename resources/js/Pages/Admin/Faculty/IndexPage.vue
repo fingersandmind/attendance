@@ -13,7 +13,8 @@ let props = defineProps({
     faculties: {
         type: Object,
         required: false
-    }
+    },
+    breadcrumbs: Object
 });
 const searchTerm = ref('');
 
@@ -34,7 +35,7 @@ let search = async (page = 1) => {
 
 <template>
     <AuthenticatedLayout>
-        <Breadcrumbs />
+        <Breadcrumbs :breadcrumbs="breadcrumbs"/>
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">

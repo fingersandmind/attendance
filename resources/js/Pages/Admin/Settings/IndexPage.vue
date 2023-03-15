@@ -14,7 +14,8 @@ const defaultClass = ref("" +
 );
 
 let props = defineProps({
-   setting: Object
+   setting: Object,
+   breadcrumbs: Object
 });
 
 const form = useForm({
@@ -32,7 +33,7 @@ const form = useForm({
 
 <template>
     <AuthenticatedLayout>
-        <Breadcrumbs />
+        <Breadcrumbs :breadcrumbs="breadcrumbs"/>
         <div class="px-4 sm:px-6 lg:px-8">
             <div>
                 <div class="md:grid md:grid-cols-3 md:gap-6">

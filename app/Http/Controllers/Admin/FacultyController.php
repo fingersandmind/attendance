@@ -20,6 +20,16 @@ class FacultyController extends Controller
      */
     public function index(Request $request)
     {
+        $breadcrumbs = [
+          [
+              'name' => 'Home',
+              'link' => route('home'),
+          ],
+          [
+              'name' => 'Faculties',
+              'link' => '#',
+          ]
+        ];
         $searchTerm = $request->get('searchTerm') ?? '';
         $faculties = Faculty::query()
                 ->search($searchTerm)
@@ -28,16 +38,31 @@ class FacultyController extends Controller
                 ->paginate(10)
                 ->withQueryString();
 
-        return Inertia::render('Admin/Faculty/IndexPage', compact('faculties'));
+        return Inertia::render('Admin/Faculty/IndexPage', compact('faculties', 'breadcrumbs'));
     }
 
     public function show(Faculty $faculty)
     {
+        $breadcrumbs = [
+            [
+                'name' => 'Home',
+                'link' => route('home'),
+            ],
+            [
+                'name' => 'Faculties',
+                'link' => route('admin.faculties.index'),
+            ],
+            [
+                'name' => 'Information',
+                'link' => '#',
+            ],
+        ];
         $setting = Setting::where('type', 'time')->first();
         return Inertia::render('Admin/Faculty/SinglePage', [
             'faculty' => $faculty->load('detail'),
             'attendances' => $faculty->attendances()->latest()->paginate(5),
-            'setting' => $setting
+            'setting' => $setting,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 
@@ -46,7 +71,21 @@ class FacultyController extends Controller
      */
     public  function create()
     {
-        return Inertia::render('Admin/Faculty/CreatePage');
+        $breadcrumbs = [
+            [
+                'name' => 'Home',
+                'link' => route('home'),
+            ],
+            [
+                'name' => 'Faculties',
+                'link' => route('admin.faculties.index'),
+            ],
+            [
+                'name' => 'Create',
+                'link' => '#',
+            ],
+        ];
+        return Inertia::render('Admin/Faculty/CreatePage', compact('breadcrumbs'));
     }
 
     /**
@@ -84,8 +123,22 @@ class FacultyController extends Controller
      */
     public  function edit(Faculty $faculty)
     {
+        $breadcrumbs = [
+            [
+                'name' => 'Home',
+                'link' => route('home'),
+            ],
+            [
+                'name' => 'Faculties',
+                'link' => route('admin.faculties.index'),
+            ],
+            [
+                'name' => 'Update',
+                'link' => '#',
+            ],
+        ];
         $faculty->load('detail');
-        return Inertia::render('Admin/Faculty/EditPage', compact('faculty'));
+        return Inertia::render('Admin/Faculty/EditPage', compact('faculty', 'breadcrumbs'));
     }
 
     /**

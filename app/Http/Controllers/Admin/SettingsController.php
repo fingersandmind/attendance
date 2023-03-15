@@ -12,10 +12,20 @@ class SettingsController extends Controller
 {
     public function index()
     {
+        $breadcrumbs = [
+            [
+                'name' => 'Home',
+                'link' => route('home'),
+            ],
+            [
+                'name' => 'Settings',
+                'link' => '#',
+            ],
+        ];
         $setting = Setting::query()
                         ->where('type', 'time')
                         ->first();
-        return Inertia::render('Admin/Settings/IndexPage', compact('setting'));
+        return Inertia::render('Admin/Settings/IndexPage', compact('setting', 'breadcrumbs'));
     }
 
     public function store(Request $request)

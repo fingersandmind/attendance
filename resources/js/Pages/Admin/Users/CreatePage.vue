@@ -7,7 +7,9 @@ import InputLabel from "@/Components/Inputs/InputLabel.vue";
 import TextInput from "@/Components/Inputs/TextInput.vue";
 import InputError from "@/Components/Inputs/InputError.vue";
 import { Link } from "@inertiajs/vue3";
-
+defineProps({
+    breadcrumbs: Object
+})
 let form = useForm({
     name: null,
     email: null,
@@ -18,7 +20,7 @@ let form = useForm({
 
 <template>
     <AuthenticatedLayout>
-        <Breadcrumbs />
+        <Breadcrumbs :breadcrumbs="breadcrumbs"/>
 
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="flow-root">
@@ -28,8 +30,8 @@ let form = useForm({
                             <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
                                 <div class="md:grid md:grid-cols-3 md:gap-6">
                                     <div class="md:col-span-1">
-                                        <h3 class="text-base font-semibold leading-6 text-gray-900">Personal Information</h3>
-                                        <p class="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
+                                        <h3 class="text-base font-semibold leading-6 text-gray-900">Admin Access</h3>
+                                        <p class="mt-1 text-sm text-gray-500">Be sure you allow this user to gain access on everything in this system.</p>
                                     </div>
                                     <div class="mt-5 md:col-span-2 md:mt-0">
                                         <div class="grid grid-cols-6 gap-6">

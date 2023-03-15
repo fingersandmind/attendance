@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Breadcrumbs from "@/Layouts/Breadcrumbs.vue";
-import AttendanceTable from "@/Pages/Admin/Faculty/Components/AttendanceTable.vue";
+import AttendanceTable from "@/Components/Tables/AttendanceTable.vue";
 import PaperClipIcon from "@/Components/Icons/PaperClipIcon.vue";
 import { ref, onMounted } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
