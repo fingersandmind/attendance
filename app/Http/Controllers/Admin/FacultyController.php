@@ -23,7 +23,7 @@ class FacultyController extends Controller
         $breadcrumbs = [
           [
               'name' => 'Home',
-              'link' => route('home'),
+              'link' => route('admin.home'),
           ],
           [
               'name' => 'Faculties',
@@ -46,7 +46,7 @@ class FacultyController extends Controller
         $breadcrumbs = [
             [
                 'name' => 'Home',
-                'link' => route('home'),
+                'link' => route('admin.home'),
             ],
             [
                 'name' => 'Faculties',
@@ -74,7 +74,7 @@ class FacultyController extends Controller
         $breadcrumbs = [
             [
                 'name' => 'Home',
-                'link' => route('home'),
+                'link' => route('admin.home'),
             ],
             [
                 'name' => 'Faculties',
@@ -126,7 +126,7 @@ class FacultyController extends Controller
         $breadcrumbs = [
             [
                 'name' => 'Home',
-                'link' => route('home'),
+                'link' => route('admin.home'),
             ],
             [
                 'name' => 'Faculties',

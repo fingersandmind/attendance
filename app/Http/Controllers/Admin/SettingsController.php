@@ -15,7 +15,7 @@ class SettingsController extends Controller
         $breadcrumbs = [
             [
                 'name' => 'Home',
-                'link' => route('home'),
+                'link' => route('admin.home'),
             ],
             [
                 'name' => 'Settings',

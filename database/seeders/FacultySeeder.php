@@ -36,6 +36,7 @@ class FacultySeeder extends Seeder
             $dates[] = $start->copy();
             $start->addDay();
         }
+        
         foreach ($dates as $day)
         {
             if($day->isWeekday())

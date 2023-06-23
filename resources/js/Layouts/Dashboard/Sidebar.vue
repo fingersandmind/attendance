@@ -23,8 +23,8 @@ const menuItems = [
     {
         name: 'Dashboard',
         icon: HomeIcon,
-        active: false,
-        to: ""
+        active: route().current('admin.home'),
+        to: { name: 'admin.home' }
     },
     {
         name: 'Manage Admin',
@@ -61,7 +61,7 @@ const user = computed(() => usePage().props.auth.user)
             <div v-if="isSideMenuOpen" class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
 
             <div class="fixed inset-0 z-40 flex">
-                <div v-show="isSideMenuOpen" class="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800">
+                <div v-show="isSideMenuOpen" class="relative flex flex-col flex-1 w-full max-w-xs bg-gray-800">
                     <!--
                       Close button, show/hide based on off-canvas menu state.
 
@@ -72,23 +72,23 @@ const user = computed(() => usePage().props.auth.user)
                         From: "opacity-100"
                         To: "opacity-0"
                     -->
-                    <div class="absolute top-0 right-0 -mr-12 pt-2">
+                    <div class="absolute top-0 right-0 pt-2 -mr-12">
                         <button type="button"
                                 @click="$event => $emit('closeSideMenu')"
                                 @keyup.esc="$event => $emit('closeSideMenu')"
-                                class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                                class="flex items-center justify-center w-10 h-10 ml-1 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                             <span class="sr-only">Close sidebar</span>
-                            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
 
-                    <div class="h-0 flex-1 overflow-y-auto pt-5 pb-4">
-                        <div class="flex flex-shrink-0 items-center px-4">
-                            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                    <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
+                        <div class="flex items-center flex-shrink-0 px-4">
+                            <img class="w-auto h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
                         </div>
-                        <nav class="mt-5 space-y-1 px-2">
+                        <nav class="px-2 mt-5 space-y-1">
                             <SidebarItem
                                 v-for="item in menuItems"
                                 :key="item.name"
@@ -96,15 +96,15 @@ const user = computed(() => usePage().props.auth.user)
                             />
                         </nav>
                     </div>
-                    <div class="flex flex-shrink-0 bg-gray-700 p-4">
-                        <a href="#" class="group block flex-shrink-0">
+                    <div class="flex flex-shrink-0 p-4 bg-gray-700">
+                        <a href="#" class="flex-shrink-0 block group">
                             <div class="flex items-center">
                                 <div>
-                                    <img class="inline-block h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                    <img class="inline-block w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-base font-medium text-white">{{ user.name }}</p>
-                                    <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300 sr-only">View profile</p>
+                                    <p class="text-sm font-medium text-gray-400 sr-only group-hover:text-gray-300">View profile</p>
                                 </div>
                             </div>
                         </a>
@@ -113,7 +113,7 @@ const user = computed(() => usePage().props.auth.user)
 
                 <div
                     @click="$event => $emit('toggleSideMenu')"
-                    class="w-14 h-12 flex-shrink-0">
+                    class="flex-shrink-0 h-12 w-14">
                     <!-- Force sidebar to shrink to fit close icon -->
                 </div>
             </div>
@@ -122,12 +122,12 @@ const user = computed(() => usePage().props.auth.user)
         <!-- Static sidebar for desktop -->
         <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
             <!-- Sidebar component, swap this element with another sidebar if you like -->
-            <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
-                <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-                    <div class="flex flex-shrink-0 items-center px-4">
-                        <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+            <div class="flex flex-col flex-1 min-h-0 bg-gray-800">
+                <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
+                    <div class="flex items-center flex-shrink-0 px-4">
+                        <img class="w-auto h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
                     </div>
-                    <nav class="mt-5 flex-1 space-y-1 px-2">
+                    <nav class="flex-1 px-2 mt-5 space-y-1">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <SidebarItem
                             v-for="item in menuItems"
@@ -136,22 +136,22 @@ const user = computed(() => usePage().props.auth.user)
                         />
                     </nav>
                 </div>
-                <div class="flex flex-shrink-0 bg-gray-700 p-4">
-                    <a href="#" class="group block w-full flex-shrink-0">
-                        <div class="flex justify-between items-center">
+                <div class="flex flex-shrink-0 p-4 bg-gray-700">
+                    <a href="#" class="flex-shrink-0 block w-full group">
+                        <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div>
-                                    <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                    <img class="inline-block rounded-full h-9 w-9" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-sm font-medium text-white">{{ user.name }}</p>
-                                    <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200 sr-only">View profile</p>
+                                    <p class="text-xs font-medium text-gray-300 sr-only group-hover:text-gray-200">View profile</p>
                                 </div>
                             </div>
                             <Link
                                 :href="route('logout')"
                                 method="POST"
-                                class="text-gray-200 text-sm right-0 hover:text-gray-300"
+                                class="right-0 text-sm text-gray-200 hover:text-gray-300"
                             >
                                 Logout
                             </Link>

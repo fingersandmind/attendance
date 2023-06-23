@@ -1,9 +1,11 @@
 <?php
 
+use App\Exports\AttendancesExport;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\FacultyController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\ReportsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,13 +23,14 @@ use Inertia\Inertia;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/home', function(){
     return view('home');
 });
 
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.'], function(){
+    // Dashboard
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     // Faculty
     Route::resource('faculties', FacultyController::class);
     Route::get('logs/{faculty}', [FacultyController::class, 'logShow'])->name('logs.show');
@@ -43,4 +46,11 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.']
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 
     Route::get('reports', [ReportsController::class, 'index'])->name('reports');
+    
+    Route::post('/import-excel', [ExcelController::class, 'import'])->name('import.excel');
+
+    Route::get('attendances/export', function () {
+        return Excel::download(new AttendancesExport, 'attendances.xlsx');
+    })->name('export.attendances');
+
 });

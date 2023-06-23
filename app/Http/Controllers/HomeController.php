@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
+use App\Models\Setting;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,6 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Welcome');
+        $attendances = Attendance::with('faculty')->paginate(10);
+        $setting = Setting::where('type', 'time')->first();
+
+        return Inertia::render('Welcome', [
+            'attendances' => $attendances,
+            'setting' => $setting,
+        ]);
     }
 }

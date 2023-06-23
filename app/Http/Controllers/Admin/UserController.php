@@ -20,7 +20,7 @@ class UserController extends Controller
         $breadcrumbs = [
             [
                 'name' => 'Home',
-                'link' => route('home'),
+                'link' => route('admin.home'),
             ],
             [
                 'name' => 'Users',
@@ -45,7 +45,7 @@ class UserController extends Controller
         $breadcrumbs = [
             [
                 'name' => 'Home',
-                'link' => route('home'),
+                'link' => route('admin.home'),
             ],
             [
                 'name' => 'Users',
@@ -69,7 +69,7 @@ class UserController extends Controller
             'email' => 'required|email|max:50',
             'password' => 'required|confirmed|string|min:5|max:30',
         ]);
-
+        
         User::create($validatedData);
 
         return to_route('admin.users.index');
@@ -101,13 +101,5 @@ class UserController extends Controller
         $user->update($validatedData);
 
         return to_route('admin.users.show', $user->id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id): RedirectResponse
-    {
-        //
     }
 }

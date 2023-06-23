@@ -6,6 +6,7 @@ import Pagination from "@/Components/Pagination/Pagination.vue";
 import Dropdown from "@/Components/Dropdown/Dropdown.vue";
 import DropdownLink from "@/Components/Dropdown/DropdownLink.vue";
 import BaseButton from "@/Components/Buttons/BaseButton.vue";
+import ExcelImport from "@/Components/Buttons/ExcelImport.vue";
 import EllipsisVertical from "@/Components/Icons/EllipsisVertical.vue";
 import { ref } from "vue";
 
@@ -42,7 +43,7 @@ let search = async (page = 1) => {
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Faculties</h1>
                     <p class="mt-2 text-sm text-gray-700">A list of all the faculties including their name, title, email and phone.</p>
                 </div>
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <div class="mt-4 space-y-4 sm:mt-0 sm:ml-16 sm:flex-col">
                     <Link
                         type="button"
                         class="block rounded-md bg-indigo-600 py-1.5 px-3 text-center text-sm font-semibold
@@ -53,12 +54,13 @@ let search = async (page = 1) => {
                     >
                         Add Faculty
                     </Link>
+                    <ExcelImport />
                 </div>
             </div>
             <div class="flex justify-start mt-4">
                 <div>
                     <label for="search" class="block text-sm font-medium leading-6 text-gray-900">Search</label>
-                    <div class="relative mt-2 flex items-center">
+                    <div class="relative flex items-center mt-2">
                         <input
                             type="text"
                             name="search"
@@ -69,7 +71,7 @@ let search = async (page = 1) => {
                             class="block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         >
                         <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-                            <kbd class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400">
+                            <kbd class="inline-flex items-center px-1 font-sans text-xs text-gray-400 border border-gray-200 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                      class="w-4 h-4 rotate-180">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -79,8 +81,8 @@ let search = async (page = 1) => {
                     </div>
                 </div>
             </div>
-            <div class="mt-4 flow-root">
-                <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="flow-root mt-4">
+                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
                             <table
@@ -121,27 +123,27 @@ let search = async (page = 1) => {
                                 </tr>
                                 </thead>
                                 <tbody
-                                    class="divide-y divide-gray-200 bg-white">
+                                    class="bg-white divide-y divide-gray-200">
                                 <tr
                                     v-for="faculty in props.faculties.data"
                                     :key="faculty.id"
                                 >
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                    <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 whitespace-nowrap sm:pl-6">
                                         {{ faculty.fullname }}
                                     </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                                         {{ faculty.email }}
                                     </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                                         {{ faculty.detail.speciality }}
                                     </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                                         {{ faculty.detail.division }}
                                     </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                                         {{ faculty.address }}
                                     </td>
-                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                    <td class="relative py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-6">
                                         <Dropdown>
                                             <template #trigger>
                                                 <BaseButton
@@ -157,15 +159,23 @@ let search = async (page = 1) => {
                                                     :href="route('admin.faculties.show', { faculty: faculty.id })"
                                                 >
                                                     <span
-                                                        class="text-dark-gray-500 text-md font-normal">
+                                                        class="font-normal text-dark-gray-500 text-md">
                                                         Details
+                                                    </span>
+                                                </DropdownLink>
+                                                <DropdownLink
+                                                    :href="route('admin.logs.show', { faculty: faculty.id })"
+                                                >
+                                                    <span
+                                                        class="font-normal text-dark-gray-500 text-md">
+                                                        Attendance Logs
                                                     </span>
                                                 </DropdownLink>
                                                 <DropdownLink
                                                     :href="route('admin.faculties.edit', { faculty: faculty.id })"
                                                 >
                                                     <span
-                                                        class="text-dark-gray-500 text-md font-normal">
+                                                        class="font-normal text-dark-gray-500 text-md">
                                                         Edit
                                                     </span>
                                                 </DropdownLink>
@@ -178,8 +188,8 @@ let search = async (page = 1) => {
                             </table>
                             <div
                                 v-else
-                                class="text-center my-8">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                class="my-8 text-center">
+                                <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
                                 </svg>
                                 <h3 class="mt-2 text-sm font-semibold text-gray-900">No faculty found</h3>
@@ -188,7 +198,7 @@ let search = async (page = 1) => {
                                     <button
                                         @click="search"
                                         type="button"
-                                        class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                        class="inline-flex items-center px-3 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                         Back
                                     </button>
                                 </div>
