@@ -26,7 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $attendances = Attendance::with('faculty')->paginate(10);
+        $attendances = Attendance::with('faculty')
+            ->whereDoesntHave('faculty', function($query) {
+                $query->onlyTrashed();
+            })
+            ->paginate(10);
+
         $setting = Setting::where('type', 'time')->first();
 
         return Inertia::render('Welcome', [

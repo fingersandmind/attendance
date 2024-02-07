@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('country')->default('Philippines');
             $table->string('address')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

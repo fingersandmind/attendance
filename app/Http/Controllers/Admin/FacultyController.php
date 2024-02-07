@@ -121,7 +121,7 @@ class FacultyController extends Controller
     /**
      * @return Response
      */
-    public  function edit(Faculty $faculty)
+    public function edit(Faculty $faculty)
     {
         $breadcrumbs = [
             [
@@ -139,6 +139,13 @@ class FacultyController extends Controller
         ];
         $faculty->load('detail');
         return Inertia::render('Admin/Faculty/EditPage', compact('faculty', 'breadcrumbs'));
+    }
+
+    public function destroy(Faculty $faculty)
+    {
+        $faculty->delete();
+
+        return to_route('admin.faculties.index');
     }
 
     /**

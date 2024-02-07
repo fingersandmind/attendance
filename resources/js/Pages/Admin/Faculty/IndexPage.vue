@@ -3,12 +3,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Breadcrumbs from "@/Layouts/Breadcrumbs.vue";
 import { Link, router } from "@inertiajs/vue3";
 import Pagination from "@/Components/Pagination/Pagination.vue";
-import Dropdown from "@/Components/Dropdown/Dropdown.vue";
-import DropdownLink from "@/Components/Dropdown/DropdownLink.vue";
-import BaseButton from "@/Components/Buttons/BaseButton.vue";
 import ExcelImport from "@/Components/Buttons/ExcelImport.vue";
-import EllipsisVertical from "@/Components/Icons/EllipsisVertical.vue";
 import { ref } from "vue";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 let props = defineProps({
     faculties: {
@@ -17,6 +15,7 @@ let props = defineProps({
     },
     breadcrumbs: Object
 });
+
 const searchTerm = ref('');
 
 let search = async (page = 1) => {
@@ -30,6 +29,24 @@ let search = async (page = 1) => {
             preserveScroll: true
         }
     )
+}
+
+async function confirmDelete(facultyId) {
+    if(confirm('Are your sure you want to continue this action?')) {
+        await router.delete(
+            route('admin.faculties.destroy',
+            {
+                faculty: facultyId,
+            })
+        )
+        notify()
+    }
+};
+
+const notify = () => {
+    toast.success("Successfully deleted!", {
+        autoClose: 2000,
+      })
 }
 
 </script>
@@ -58,8 +75,7 @@ let search = async (page = 1) => {
                 </div>
             </div>
             <div class="flex justify-start mt-4">
-                <div>
-                    <label for="search" class="block text-sm font-medium leading-6 text-gray-900">Search</label>
+                <div class="flex justify-between w-full">
                     <div class="relative flex items-center mt-2">
                         <input
                             type="text"
@@ -79,6 +95,8 @@ let search = async (page = 1) => {
                             </kbd>
                         </div>
                     </div>
+
+                    <div class="p-2 text-white bg-green-400 rounded-md" :class="showToast ? '' : 'hidden'">Successfully Deleted!</div>
                 </div>
             </div>
             <div class="flow-root mt-4">
@@ -129,7 +147,7 @@ let search = async (page = 1) => {
                                     :key="faculty.id"
                                 >
                                     <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 whitespace-nowrap sm:pl-6">
-                                        {{ faculty.fullname }}
+                                        <a :href="route('admin.faculties.show', { faculty: faculty.id })" class="text-blue-500 underline">{{ faculty.fullname }}</a>
                                     </td>
                                     <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                                         {{ faculty.email }}
@@ -144,46 +162,26 @@ let search = async (page = 1) => {
                                         {{ faculty.address }}
                                     </td>
                                     <td class="relative py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-6">
-                                        <Dropdown>
-                                            <template #trigger>
-                                                <BaseButton
-                                                    variant="normal"
-                                                    type="button"
-                                                    class="!p-0 !mx-auto">
-                                                    <EllipsisVertical />
-                                                </BaseButton>
-                                            </template>
-
-                                            <template #content>
-                                                <DropdownLink
-                                                    :href="route('admin.faculties.show', { faculty: faculty.id })"
-                                                >
-                                                    <span
-                                                        class="font-normal text-dark-gray-500 text-md">
-                                                        Details
-                                                    </span>
-                                                </DropdownLink>
-                                                <DropdownLink
-                                                    :href="route('admin.logs.show', { faculty: faculty.id })"
-                                                >
-                                                    <span
-                                                        class="font-normal text-dark-gray-500 text-md">
-                                                        Attendance Logs
-                                                    </span>
-                                                </DropdownLink>
-                                                <DropdownLink
-                                                    :href="route('admin.faculties.edit', { faculty: faculty.id })"
-                                                >
-                                                    <span
-                                                        class="font-normal text-dark-gray-500 text-md">
-                                                        Edit
-                                                    </span>
-                                                </DropdownLink>
-                                            </template>
-                                        </Dropdown>
+                                        <div class="flex items-center space-x-2">
+                                            <a :href="route('admin.faculties.show', { faculty:faculty.id })" class="p-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hover:text-blue-400">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                </svg>
+                                            </a>
+                                            <a :href="route('admin.faculties.edit', { faculty:faculty.id })" class="p-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hover:text-orange-300">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                                </svg>
+                                            </a>
+                                            <button class="p-1" @click="confirmDelete(faculty.id)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hover:text-red-500">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
-                                <!-- More people... -->
                                 </tbody>
                             </table>
                             <div
