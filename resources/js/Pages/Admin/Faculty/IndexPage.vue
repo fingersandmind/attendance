@@ -54,25 +54,27 @@ const notify = () => {
 <template>
     <AuthenticatedLayout>
         <Breadcrumbs :breadcrumbs="breadcrumbs"/>
-        <div class="px-4 sm:px-6 lg:px-8">
-            <div class="sm:flex sm:items-center">
-                <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Faculties</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of all the faculties including their name, title, email and phone.</p>
+        <div class="w-full">
+            <div class="flex flex-col">
+                <div class="items-center sm:flex">
+                    <div class="sm:flex-auto">
+                        <h1 class="text-base font-semibold leading-6 text-gray-900">Faculties</h1>
+                        <p class="mt-2 text-sm text-gray-700">A list of all the faculties including their name, title, email and phone.</p>
+                    </div>
+                    <div class="mt-4 space-y-4 sm:mt-0 sm:ml-16 sm:flex-col">
+                        <Link
+                            type="button"
+                            class="block rounded-md bg-indigo-600 py-1.5 px-3 text-center text-sm font-semibold
+                                leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline
+                                focus-visible:outline-2 focus-visible:outline-offset-2
+                                focus-visible:outline-indigo-600"
+                            :href="route('admin.faculties.create')"
+                        >
+                            Add Faculty
+                        </Link>
+                    </div>
                 </div>
-                <div class="mt-4 space-y-4 sm:mt-0 sm:ml-16 sm:flex-col">
-                    <Link
-                        type="button"
-                        class="block rounded-md bg-indigo-600 py-1.5 px-3 text-center text-sm font-semibold
-                            leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline
-                            focus-visible:outline-2 focus-visible:outline-offset-2
-                            focus-visible:outline-indigo-600"
-                        :href="route('admin.faculties.create')"
-                    >
-                        Add Faculty
-                    </Link>
-                    <ExcelImport />
-                </div>
+                <ExcelImport />
             </div>
             <div class="flex justify-start mt-4">
                 <div class="flex justify-between w-full">
@@ -95,8 +97,6 @@ const notify = () => {
                             </kbd>
                         </div>
                     </div>
-
-                    <div class="p-2 text-white bg-green-400 rounded-md" :class="showToast ? '' : 'hidden'">Successfully Deleted!</div>
                 </div>
             </div>
             <div class="flow-root mt-4">
@@ -212,7 +212,5 @@ const notify = () => {
                 </div>
             </div>
         </div>
-
-
     </AuthenticatedLayout>
 </template>

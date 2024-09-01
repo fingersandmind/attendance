@@ -21,22 +21,22 @@ class FacultyController extends Controller
     public function index(Request $request)
     {
         $breadcrumbs = [
-          [
-              'name' => 'Home',
-              'link' => route('admin.home'),
-          ],
-          [
-              'name' => 'Faculties',
-              'link' => '#',
-          ]
+            [
+                'name' => 'Home',
+                'link' => route('admin.home'),
+            ],
+            [
+                'name' => 'Faculties',
+                'link' => '#',
+            ]
         ];
         $searchTerm = $request->get('searchTerm') ?? '';
         $faculties = Faculty::query()
-                ->search($searchTerm)
-                ->with('detail')
-                ->latest()
-                ->paginate(10)
-                ->withQueryString();
+            ->search($searchTerm)
+            ->with('detail')
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Admin/Faculty/IndexPage', compact('faculties', 'breadcrumbs'));
     }
@@ -58,6 +58,7 @@ class FacultyController extends Controller
             ],
         ];
         $setting = Setting::where('type', 'time')->first();
+
         return Inertia::render('Admin/Faculty/SinglePage', [
             'faculty' => $faculty->load('detail'),
             'attendances' => $faculty->attendances()->latest()->paginate(5),
@@ -110,8 +111,7 @@ class FacultyController extends Controller
 
         $faculty = Faculty::create(array_diff_key($validatedData, array_flip(['position', 'division', 'speciality'])));
 
-        if($faculty)
-        {
+        if ($faculty) {
             $faculty->detail()->create($request->only(['position', 'division', 'speciality']));
         }
 
@@ -199,18 +199,17 @@ class FacultyController extends Controller
      */
     public function getLogs($facultyId, $dates): array
     {
-        if(empty($dates)) return [];
+        if (empty($dates)) return [];
         $attendance = Attendance::query()
-                        ->where('faculty_id', $facultyId)
-                        ->whereBetween('created_at', $dates)
-                        ->latest()
-                        ->paginate(35);
+            ->where('faculty_id', $facultyId)
+            ->whereBetween('created_at', $dates)
+            ->latest()
+            ->paginate(35);
 
         $totalLateHours = $this->getTotalHours($attendance, true);
         $totalLoggedHours = $this->getTotalHours($attendance);
 
         return compact('attendance', 'totalLoggedHours', 'totalLateHours');
-
     }
 
     /**
@@ -220,14 +219,13 @@ class FacultyController extends Controller
      */
     public function getTotalHours(LengthAwarePaginator $item, bool $isForLate = false): mixed
     {
-        $result =  $item->getCollection()->sum(function ($data) use ($isForLate){
-            if(!$isForLate)
-            {
+        $result =  $item->getCollection()->sum(function ($data) use ($isForLate) {
+            if (!$isForLate) {
                 $firstInTotal = $this->getHours($data->first_in, $data->first_out);
                 $secondInTotal = $this->getHours($data->second_in, $data->second_out);
                 $total = $firstInTotal + $secondInTotal;
-            }else{
-                $timeInSetting = Setting::where('type','time')->first();
+            } else {
+                $timeInSetting = Setting::where('type', 'time')->first();
                 $firstIn = $timeInSetting?->first_in ?? "08:00:00";
                 $secondIn = $timeInSetting?->first_out ?? "13:00:00";
                 $firstLateInTotal = $this->getHours($firstIn, $data->first_in);
@@ -261,6 +259,6 @@ class FacultyController extends Controller
         $minutes = floor(($init / 60) % 60);
         $seconds = $init % 60;
 
-        return $hours . ":" . $minutes . ":" .$seconds;
+        return $hours . ":" . $minutes . ":" . $seconds;
     }
 }

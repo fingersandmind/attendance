@@ -48,7 +48,7 @@ let search = (page = 1) => {
 </script>
 
 <template>
-    <div class="px-4 my-4 sm:px-6 lg:px-8">
+    <div class="px-4 my-4">
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
                 <h1 class="text-xl font-semibold leading-6 text-center text-gray-900">Attendance Table</h1>
@@ -61,41 +61,93 @@ let search = (page = 1) => {
         </div>
         <div
             class="mt-8 -mx-4 sm:-mx-0" :id="tableId">
-            <table class="min-w-full divide-y divide-gray-300">
-                <thead>
-                <tr>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">In</th>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Out</th>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">In</th>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Out</th>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Date</th>
-                    <th v-if="editable" scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                        <span class="sr-only">Edit</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                <tr
-                    v-for="attendance in attendances.data"
-                    :key="attendance.id"
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+        <thead class="bg-gray-50">
+            <tr>
+                <th
+                    scope="col"
+                    class="px-4 py-4 text-sm font-semibold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200"
                 >
-                    <td class="w-full py-4 pl-4 pr-3 text-sm font-medium text-gray-900 max-w-0 sm:w-auto sm:max-w-none sm:pl-0">
-                        {{ user ?? attendance.faculty.fullname }}
-                    </td>
-                    <td class="hidden px-3 py-4 text-sm lg:table-cell" :class="status(attendance.first_in)">{{ attendance.first_in }}</td>
-                    <td class="hidden px-3 py-4 text-sm sm:table-cell">{{ attendance.first_out }}</td>
-                    <td class="hidden px-3 py-4 text-sm lg:table-cell" :class="status(attendance.second_in)">{{ attendance.second_in }}</td>
-                    <td class="hidden px-3 py-4 text-sm sm:table-cell">{{ attendance.second_out }}</td>
-                    <td class="hidden px-3 py-4 text-sm sm:table-cell">{{ new Date(attendance.created_at).toDateString() }}</td>
-                    <td v-if="editable" class="py-4 pl-3 pr-4 text-sm font-medium text-right sm:pr-0">
-                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, Lindsay Walton</span></a>
-                    </td>
-                </tr>
-
-                <!-- More people... -->
-                </tbody>
-            </table>
+                    Name
+                </th>
+                <th
+                    scope="col"
+                    class="px-4 py-4 text-sm font-semibold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200"
+                >
+                    AM In
+                </th>
+                <th
+                    scope="col"
+                    class="px-4 py-4 text-sm font-semibold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200"
+                >
+                    AM Out
+                </th>
+                <th
+                    scope="col"
+                    class="px-4 py-4 text-sm font-semibold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200"
+                >
+                    PM In
+                </th>
+                <th
+                    scope="col"
+                    class="px-4 py-4 text-sm font-semibold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200"
+                >
+                    PM Out
+                </th>
+                <th
+                    scope="col"
+                    class="px-4 py-4 text-sm font-semibold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200"
+                >
+                    Date
+                </th>
+                <th
+                    v-if="editable"
+                    scope="col"
+                    class="px-4 py-4 text-sm font-semibold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200"
+                >
+                    <span class="sr-only">Edit</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            <tr
+                v-for="attendance in attendances.data"
+                :key="attendance.id"
+                class="transition duration-150 hover:bg-gray-50"
+            >
+                <td class="px-4 py-4 text-sm font-medium text-gray-900">
+                    {{ user ?? attendance.faculty.fullname }}
+                </td>
+                <td
+                    class="px-4 py-4 text-sm text-center lg:table-cell"
+                    :class="status(attendance.first_in)"
+                >
+                    {{ attendance.first_in }}
+                </td>
+                <td class="px-4 py-4 text-sm text-center lg:table-cell">
+                    {{ attendance.first_out }}
+                </td>
+                <td
+                    class="px-4 py-4 text-sm text-center lg:table-cell"
+                    :class="status(attendance.second_in)"
+                >
+                    {{ attendance.second_in }}
+                </td>
+                <td class="px-4 py-4 text-sm text-center lg:table-cell">
+                    {{ attendance.second_out }}
+                </td>
+                <td class="px-4 py-4 text-sm text-center lg:table-cell">
+                    {{ new Date(attendance.created_at).toDateString() }}
+                </td>
+                <td
+                    v-if="editable"
+                    class="px-4 py-4 text-sm font-medium text-right text-indigo-600 transition duration-150 hover:text-indigo-900"
+                >
+                    <a href="#">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
             <div v-show="totalLoggedHours" class="flex justify-start gap-4 my-8">
                 <span class="block text-gray-500 text-md">Total Logged Hours: {{ totalLoggedHours }}</span>
                 <span class="block text-red-500 text-md">Total Late Hours: {{ totalLateHours }}</span>

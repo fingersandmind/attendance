@@ -27,9 +27,10 @@ class HomeController extends Controller
     public function index()
     {
         $attendances = Attendance::with('faculty')
-            ->whereDoesntHave('faculty', function($query) {
+            ->whereDoesntHave('faculty', function ($query) {
                 $query->onlyTrashed();
             })
+            ->latest()
             ->paginate(10);
 
         $setting = Setting::where('type', 'time')->first();

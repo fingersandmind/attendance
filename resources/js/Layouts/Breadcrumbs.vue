@@ -8,7 +8,7 @@ defineProps({
 </script>
 <template>
     <nav class="flex" aria-label="Breadcrumb">
-        <ol role="list" class="flex space-x-4 rounded-md bg-white px-6 shadow mx-8 mb-8">
+        <ol role="list" class="flex px-6 mb-8 space-x-4 bg-white rounded-md shadow">
             <BreadcrumbItem
                 v-for="item in breadcrumbs"
                 :key="item.name"

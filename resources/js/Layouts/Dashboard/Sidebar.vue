@@ -33,7 +33,7 @@ const menuItems = [
         to: { name: 'admin.users.index' }
     },
     {
-        name: 'Faculty',
+        name: 'Faculties',
         icon: UserIcon,
         active: route().current('admin.faculties.*') || route().current('admin.logs.*'),
         to: { name: 'admin.faculties.index' }

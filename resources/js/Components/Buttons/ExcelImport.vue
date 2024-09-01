@@ -1,52 +1,71 @@
 <template>
-    <div>
-      <form @submit.prevent="importExcel" enctype="multipart/form-data">
-        <span class="inline-flex rounded-md shadow-sm isolate">
-          <button type="button" 
-            onclick="document.getElementById('file').click();"
-            class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
-            </svg>
-            Select File
-          </button>
-          <input type="file" id="file" ref="fileInput" accept=".xls,.xlsx" required class="hidden"/>
-          <button type="submit" class="relative inline-flex items-center px-3 py-2 -ml-px text-sm font-semibold text-white bg-blue-400 rounded-r-md ring-1 ring-inset ring-blue-300 hover:bg-blue-500 focus:z-10">Import</button>
-        </span>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  import { ref } from 'vue';
-  import axios from 'axios';
-  
-  export default {
-    setup() {
-      const fileInput = ref(null);
-  
-      const importExcel = (event) => {
-        const formData = new FormData();
-        formData.append('file', fileInput.value.files[0]);
-  
-        axios
-          .post('/admin/import-excel', formData)
-          .then((response) => {
-            console.log(response.data.message);
-            // Handle the success message
-            alert(response.data.message);
-          })
-          .catch((error) => {
-            console.log(error.response.data.message);
-            // Handle the error message
-          });
-      };
-  
-      return {
-        fileInput,
-        importExcel,
-      };
-    },
-  };
-  </script>
-  
+  <div class="max-w-md p-6 mt-8 ml-auto border border-gray-300 rounded-lg shadow-md">
+    <h2 class="mb-4 text-2xl font-semibold text-center">Upload Attendance Excel</h2>
+    <input
+      type="file"
+      @change="handleFileUpload"
+      class="w-full p-2 mb-4 text-gray-700 border border-gray-300 rounded-md"
+    />
+    <p v-if="fileName" class="mb-4 text-gray-600">Selected file: {{ fileName }}</p>
+    <button
+      @click="submitFile"
+      class="w-full py-2 text-white transition duration-300 bg-blue-500 rounded-md hover:bg-blue-600"
+    >
+      Upload
+    </button>
+    <p v-if="uploadStatus" class="mt-4 text-center" :class="{'text-red-500' : !statusApprove, 'text-green-600': statusApprove}">{{ uploadStatus }}</p>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios'
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
+const file = ref(null)
+const fileName = ref('')
+const uploadStatus = ref('')
+const statusApprove = ref(false);
+
+const handleFileUpload = (event) => {
+  const selectedFile = event.target.files[0]
+  if (selectedFile) {
+    if (selectedFile.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || selectedFile.type === 'application/vnd.ms-excel') {
+      file.value = selectedFile
+      fileName.value = selectedFile.name
+      uploadStatus.value = ''
+    } else {
+      toast.error('Please select a valid Excel file (.xlsx or .xls)')
+      file.value = null
+      fileName.value = ''
+    }
+  }
+}
+
+const submitFile = async () => {
+  if (file.value) {
+    const formData = new FormData()
+    formData.append('file', file.value)
+
+    try {
+      const response = await axios.post('/admin/import-excel', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+      uploadStatus.value = 'File uploaded and data processed successfully'
+      statusApprove.value = true;
+      toast.success('File uploaded successfully')
+    } catch (error) {
+      uploadStatus.value = 'Error uploading file'
+      statusApprove.value = false;
+      toast.error('Error uploading file')
+    }
+  } else {
+    uploadStatus.value = 'No file selected'
+  }
+}
+</script>
+
+<style scoped>
+/* Scoped styles for component-specific styling */
+</style>

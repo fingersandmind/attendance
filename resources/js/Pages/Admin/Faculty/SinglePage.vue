@@ -29,22 +29,22 @@ let exportToPdf = () => {
 <template>
     <AuthenticatedLayout>
         <Breadcrumbs :breadcrumbs="breadcrumbs"/>
-        <div class="overflow-hidden bg-white shadow sm:rounded-lg mx-8 border mb-4">
-            <div class="flex justify-between items-start">
+        <div class="mb-4 overflow-hidden bg-white border shadow sm:rounded-lg">
+            <div class="flex items-start justify-between">
                 <div class="px-4 py-5 sm:px-6">
                     <h3 class="text-base font-semibold leading-6 text-gray-900">Faculty Information</h3>
-                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details</p>
+                    <p class="max-w-2xl mt-1 text-sm text-gray-500">Personal details</p>
                 </div>
                 <Link
                     :href="route('admin.faculties.edit', { faculty:faculty.id })"
-                    class="px-4 py-2 bg-blue-400 text-white rounded-md m-4">
+                    class="px-4 py-2 m-4 text-white bg-blue-400 rounded-md">
                     Update
                 </Link>
             </div>
-            <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+            <div class="px-4 py-5 border-t border-gray-200 sm:px-6">
                 <div>
-                    <div class="mb-4 flex items-center">
-                        <span class="inline-block h-16 w-16 overflow-hidden rounded-full bg-gray-100">
+                    <div class="flex items-center mb-4">
+                        <span class="inline-block w-16 h-16 overflow-hidden bg-gray-100 rounded-full">
                           <AvatarIcon />
                         </span>
                     </div>
@@ -87,13 +87,13 @@ let exportToPdf = () => {
                     <div v-if="attendances.data.length > 0" class="sm:col-span-2">
                         <dt class="text-sm font-medium text-gray-500">Attachments</dt>
                         <dd class="mt-1 text-sm text-gray-900">
-                            <ul role="list" class="divide-y divide-gray-200 rounded-md border border-gray-200">
+                            <ul role="list" class="border border-gray-200 divide-y divide-gray-200 rounded-md">
                                 <li class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
-                                    <div class="flex w-0 flex-1 items-center">
-                                        <PaperClipIcon class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                        <span class="ml-2 w-0 flex-1 truncate">{{ faculty.lastname }}_attendance_log.pdf</span>
+                                    <div class="flex items-center flex-1 w-0">
+                                        <PaperClipIcon class="flex-shrink-0 w-5 h-5 text-gray-400" aria-hidden="true" />
+                                        <span class="flex-1 w-0 ml-2 truncate">{{ faculty.lastname }}_attendance_log.pdf</span>
                                     </div>
-                                    <div class="ml-4 flex-shrink-0">
+                                    <div class="flex-shrink-0 ml-4">
                                         <button @click="exportToPdf" class="font-medium text-indigo-600 hover:text-indigo-500">Download</button>
                                     </div>
                                 </li>
@@ -105,9 +105,9 @@ let exportToPdf = () => {
         </div>
         <div
             v-if="attendances.data.length > 0"
-            class="flex w-full justify-between items-center px-8">
+            class="flex items-center justify-between w-full px-8">
             <h2
-                class="my-4 font-medium text-sm text-gray-500">
+                class="my-4 text-sm font-medium text-gray-500">
                 Recent logs
             </h2>
             <Link
@@ -122,7 +122,7 @@ let exportToPdf = () => {
         </div>
         <div
             v-if="attendances.data.length > 0"
-            class="overflow-hidden bg-white shadow sm:rounded-lg mx-8 border">
+            class="overflow-hidden bg-white border shadow sm:rounded-lg">
             <AttendanceTable
                 :has-pagination="true"
                 :table-id="'attendance-table'"

@@ -53,8 +53,8 @@ let exportToPdf = () => {
 <template>
     <AuthenticatedLayout>
         <Breadcrumbs />
-        <section class="flex flex-col gap-2 w-1/2 px-8">
-            <p class="block text-md text-gray-800">Select dates</p>
+        <section class="flex flex-col w-1/2 gap-2">
+            <p class="block text-gray-800 text-md">Select dates</p>
             <VueDatePicker
                 v-model="date"
                 range
@@ -62,13 +62,13 @@ let exportToPdf = () => {
                 @cleared="clearFilter"
             />
         </section>
-        <div class="overflow-hidden bg-white shadow sm:rounded-lg mx-8 mt-8 mb-4">
+        <div class="mx-8 mt-8 mb-4 overflow-hidden bg-white shadow sm:rounded-lg">
             <div class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
-                <div class="flex w-0 flex-1 items-center">
-                    <PaperClipIcon class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                    <span class="ml-2 w-0 flex-1 truncate">{{ faculty.lastname }}_attendance_log.pdf</span>
+                <div class="flex items-center flex-1 w-0">
+                    <PaperClipIcon class="flex-shrink-0 w-5 h-5 text-gray-400" aria-hidden="true" />
+                    <span class="flex-1 w-0 ml-2 truncate">{{ faculty.lastname }}_attendance_log.pdf</span>
                 </div>
-                <div class="ml-4 flex-shrink-0">
+                <div class="flex-shrink-0 ml-4">
                     <button @click="exportToPdf" class="font-medium text-indigo-600 hover:text-indigo-500">Download</button>
                 </div>
             </div>

@@ -24,11 +24,11 @@ use Inertia\Inertia;
 Auth::routes();
 
 
-Route::get('/home', function(){
-    return view('home');
+Route::get('/', function () {
+    return Inertia::render('Home');
 });
 
-Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.'], function(){
+Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     // Dashboard
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     // Faculty
@@ -46,11 +46,10 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.']
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 
     Route::get('reports', [ReportsController::class, 'index'])->name('reports');
-    
+
     Route::post('/import-excel', [ExcelController::class, 'import'])->name('import.excel');
 
     Route::get('attendances/export', function () {
         return Excel::download(new AttendancesExport, 'attendances.xlsx');
     })->name('export.attendances');
-
 });

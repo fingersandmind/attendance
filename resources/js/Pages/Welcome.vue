@@ -12,10 +12,10 @@ let props = defineProps({
 <template>
     <AuthenticatedLayout>
         <Breadcrumbs />
-        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="w-full mx-auto">
             <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
         </div>
-        <div class="flex-col px-4 mx-auto mt-4 space-y-4 max-w-7xl sm:px-6 md:px-8">
+        <div class="flex-col w-full mt-4 space-y-4">
             <span class="inline-flex rounded-md shadow-sm isolate">
                 <a :href="route('admin.export.attendances')" target="_blank" class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
                     <svg class="-ml-0.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -27,7 +27,7 @@ let props = defineProps({
 
             <div
                 v-if="attendances.data.length > 0"
-                class="mx-8 overflow-hidden bg-white border shadow sm:rounded-lg">
+                class="overflow-hidden bg-white border shadow sm:rounded-lg">
                 <AttendanceTable
                     :has-pagination="true"
                     :table-id="'attendance-table'"
