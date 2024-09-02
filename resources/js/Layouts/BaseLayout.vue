@@ -30,7 +30,7 @@
   import { usePage } from '@inertiajs/vue3';
 
   const { props } = usePage();
-  const authenticated = ref(props.is_authenticated);
+  const authenticated = ref(props.auth?.user !== null);
 </script>
 
 <style scoped>

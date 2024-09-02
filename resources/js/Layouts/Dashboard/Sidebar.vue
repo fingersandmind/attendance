@@ -8,7 +8,7 @@ import StatisticIcon from "@/Components/Icons/StatisticIcon.vue"
 import CogIcon from "@/Components/Icons/CogIcon.vue";
 import {usePage} from "@inertiajs/vue3";
 import { computed } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 
 defineProps({
     isSideMenuOpen: {
@@ -53,6 +53,10 @@ const menuItems = [
 ]
 
 const user = computed(() => usePage().props.auth.user)
+
+const logout = () => {
+    router.post(route('logout'));
+};
 </script>
 
 <template>
@@ -148,13 +152,11 @@ const user = computed(() => usePage().props.auth.user)
                                     <p class="text-xs font-medium text-gray-300 sr-only group-hover:text-gray-200">View profile</p>
                                 </div>
                             </div>
-                            <Link
-                                :href="route('logout')"
-                                method="POST"
-                                class="right-0 text-sm text-gray-200 hover:text-gray-300"
-                            >
-                                Logout
-                            </Link>
+                            <form @submit.prevent="logout" class="inline">
+                                <button type="submit" class="right-0 text-sm text-gray-200 hover:text-gray-300">
+                                    Logout
+                                </button>
+                            </form>
                         </div>
                     </a>
                 </div>
